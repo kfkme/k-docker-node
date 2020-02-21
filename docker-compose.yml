@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  node:
+    build: ./build/node
+    privileged: true
+    ports:
+      - '8081:8081'
+      - '8082:8082'
+      - '8083:8083'
+      - '8084:8084'
+      - '8085:8085'
+      - '8086:8086'
+    volumes:
+      - ./www/:/var/www/
