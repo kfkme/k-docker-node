@@ -18,7 +18,7 @@ COPY src /app
 # RUN npm run build
 
 # --- Release with Alpine ----
-FROM node:8.9-alpine AS release
+FROM node:10.13.0-alpine AS release
 # 创建 app 目录
 WORKDIR /app
 # 可选命令：
@@ -27,10 +27,13 @@ COPY --from=dependencies /app/package.json ./
 # 安装 app 依赖
 RUN npm install --only=production
 COPY --from=build /app ./
-# 安装淘宝镜像
-RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+
+# 安装npm下载地址切换工具(npm 切换成淘宝镜像)
+RUN npm install nrm -g
+RUN nrm use taobao
+
 # 安装 vue-cli
-RUN cnpm install -g @vue/cli
+RUN npm install -g @vue/cli
 
 #CMD ["serve", "-s", "dist", "-p", "8080"]
 CMD ["node", "server.js"]
